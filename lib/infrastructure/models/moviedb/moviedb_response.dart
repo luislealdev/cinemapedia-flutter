@@ -11,7 +11,7 @@ class MovieDbResponse {
 
   final Dates? dates;
   final int page;
-  final List<MovieMovieDB> results;
+  final List<MovieFromTheMovieDB> results;
   final int totalPages;
   final int totalResults;
 
@@ -19,8 +19,8 @@ class MovieDbResponse {
       MovieDbResponse(
         dates: json["dates"] ? Dates.fromJson(json["dates"]) : null,
         page: json["page"],
-        results: List<MovieMovieDB>.from(
-            json["results"].map((x) => MovieMovieDB.fromJson(x))),
+        results: List<MovieFromTheMovieDB>.from(
+            json["results"].map((x) => MovieFromTheMovieDB.fromJson(x))),
         totalPages: json["total_pages"],
         totalResults: json["total_results"],
       );
