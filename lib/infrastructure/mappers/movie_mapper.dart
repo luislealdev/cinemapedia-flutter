@@ -13,9 +13,7 @@ class MovieMapper {
       originalTitle: movieDB.originalTitle,
       overview: movieDB.overview,
       popularity: movieDB.popularity,
-      posterPath: movieDB.posterPath != ''
-          ? movieDB.posterPath
-          : "https://sd.keepcalms.com/i-w600/keep-calm-poster-not-found.jpg",
+      posterPath: movieDB.posterPath != '' ? movieDB.posterPath : "no-poster",
       releaseDate: movieDB.releaseDate,
       title: movieDB.title,
       video: movieDB.video,
