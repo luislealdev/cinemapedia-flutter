@@ -1,4 +1,6 @@
 import 'package:cinemapedia/presentation/providers/movies/movies_providers.dart';
+import 'package:cinemapedia/presentation/providers/movies/movies_slideshow_provider.dart';
+import 'package:cinemapedia/presentation/widgets/movies/movies_horizontal_listview.dart';
 import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,14 +14,13 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: _HomeView(),
+      bottomNavigationBar: CustomBottomNavigation(),
     );
   }
 }
 
 class _HomeView extends ConsumerStatefulWidget {
-  const _HomeView({
-    super.key,
-  });
+  const _HomeView();
 
   @override
   ConsumerState<_HomeView> createState() => _HomeViewState();
@@ -34,21 +35,17 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    // final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final slideshowImages = ref.watch(moviesSlideshowProvider);
+
     return Column(
       children: [
         const CustomAppBar(),
-        MoviesSlideshow(movies: nowPlayingMovies)
-        // Expanded(
-        //   child: ListView.builder(
-        //       itemCount: nowPlayingMovies.length,
-        //       itemBuilder: (context, index) {
-        //         final movie = nowPlayingMovies[index];
-        //         return ListTile(
-        //           title: Text(movie.title),
-        //         );
-        //       }),
-        // )
+        MoviesSlideshow(movies: slideshowImages),
+        MoviesHorizontalListView(
+            movies: slideshowImages,
+            title: 'Now Playing',
+            subtitle: 'Monday 20'),
       ],
     );
   }
