@@ -5,7 +5,7 @@ class MovieMapper {
   static Movie theMovieDBToEntity(MovieFromTheMovieDB movieDB) => Movie(
       adult: movieDB.adult,
       backdropPath: movieDB.backdropPath != ''
-          ? "https://image.tmdb.org/t/p/w500/" + movieDB.backdropPath
+          ? "https://image.tmdb.org/t/p/w500/${movieDB.backdropPath}"
           : "https://sd.keepcalms.com/i-w600/keep-calm-poster-not-found.jpg",
       genreIds: movieDB.genreIds.map((e) => e.toString()).toList(),
       id: movieDB.id,
@@ -13,7 +13,9 @@ class MovieMapper {
       originalTitle: movieDB.originalTitle,
       overview: movieDB.overview,
       popularity: movieDB.popularity,
-      posterPath: movieDB.posterPath != '' ? movieDB.posterPath : "no-poster",
+      posterPath: movieDB.posterPath != ''
+          ? "https://image.tmdb.org/t/p/w500/${movieDB.posterPath}"
+          : "no-poster",
       releaseDate: movieDB.releaseDate,
       title: movieDB.title,
       video: movieDB.video,
