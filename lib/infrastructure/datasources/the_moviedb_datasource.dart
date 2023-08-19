@@ -11,7 +11,8 @@ class TheMoviedbDatasource extends MoviesDatasource {
       queryParameters: {'api_key': Enviroment.moviesKey, 'language': 'es-MX'}));
   @override
   Future<List<Movie>> getPlayingNow({int page = 1}) async {
-    final response = await dio.get('/movie/now_playing');
+    final response =
+        await dio.get('/movie/now_playing', queryParameters: {'page': page});
     final theMovieDBResponse = MovieDbResponse.fromJson(response.data);
     final List<Movie> movies = theMovieDBResponse.results
         .where((movieDB) => movieDB.posterPath != '')

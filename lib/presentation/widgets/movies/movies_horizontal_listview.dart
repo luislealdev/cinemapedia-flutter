@@ -2,13 +2,45 @@ import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 
-class MoviesHorizontalListView extends StatelessWidget {
+class MoviesHorizontalListView extends StatefulWidget {
   final List<Movie> movies;
   final String? title;
   final String? subtitle;
+  final VoidCallback? loadNextPage;
 
   const MoviesHorizontalListView(
-      {super.key, required this.movies, this.title, this.subtitle});
+      {super.key,
+      required this.movies,
+      this.title,
+      this.subtitle,
+      this.loadNextPage});
+
+  @override
+  State<MoviesHorizontalListView> createState() =>
+      _MoviesHorizontalListViewState();
+}
+
+class _MoviesHorizontalListViewState extends State<MoviesHorizontalListView> {
+  final scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(() {
+      if (widget.loadNextPage == null) return;
+
+      if (scrollController.position.pixels + 200 >=
+          scrollController.position.maxScrollExtent) {
+        widget.loadNextPage!();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,16 +48,17 @@ class MoviesHorizontalListView extends StatelessWidget {
       height: 500,
       child: Column(
         children: [
-          if (title != null || subtitle != null)
-            _TitlesBar(title: title, subtitle: subtitle),
+          if (widget.title != null || widget.subtitle != null)
+            _TitlesBar(title: widget.title, subtitle: widget.subtitle),
           const SizedBox(height: 10),
           Expanded(
               child: ListView.builder(
+            controller: scrollController,
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            itemCount: movies.length,
+            itemCount: widget.movies.length,
             itemBuilder: (context, index) {
-              return _MovieCard(movie: movies[index]);
+              return _MovieCard(movie: widget.movies[index]);
             },
           )),
         ],
@@ -80,8 +113,8 @@ class _MovieCard extends StatelessWidget {
                     style: textStyles.bodyMedium!
                         .copyWith(color: Colors.yellow[700])),
                 const SizedBox(width: 10),
-                Spacer(),
-                Text('${HumanFormats.number(movie.popularity)}',
+                const Spacer(),
+                Text(HumanFormats.number(movie.popularity),
                     style: textStyles.bodyMedium),
               ],
             ),
