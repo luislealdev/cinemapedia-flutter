@@ -1,3 +1,4 @@
+import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 
@@ -68,17 +69,22 @@ class _MovieCard extends StatelessWidget {
               style: textStyles.titleSmall,
             ),
           ),
-          Row(
-            children: [
-              Icon(Icons.star_half_outlined,
-                  size: 20, color: Colors.yellow[700]),
-              const SizedBox(width: 5),
-              Text('${movie.voteAverage}',
-                  style: textStyles.bodyMedium!
-                      .copyWith(color: Colors.yellow[700])),
-              const SizedBox(width: 10),
-              Text('${movie.voteAverage}', style: textStyles.bodyMedium),
-            ],
+          SizedBox(
+            width: 150,
+            child: Row(
+              children: [
+                Icon(Icons.star_half_outlined,
+                    size: 20, color: Colors.yellow[700]),
+                const SizedBox(width: 5),
+                Text('${movie.voteAverage}',
+                    style: textStyles.bodyMedium!
+                        .copyWith(color: Colors.yellow[700])),
+                const SizedBox(width: 10),
+                Spacer(),
+                Text('${HumanFormats.number(movie.popularity)}',
+                    style: textStyles.bodyMedium),
+              ],
+            ),
           )
         ],
       ),
