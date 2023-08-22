@@ -38,16 +38,50 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideshowImages = ref.watch(moviesSlideshowProvider);
 
-    return Column(
-      children: [
-        const CustomAppBar(),
-        MoviesSlideshow(movies: slideshowImages),
-        MoviesHorizontalListView(
-            movies: nowPlayingMovies,
-            title: 'Now Playing',
-            subtitle: 'Monday 20',
-            loadNextPage: () =>
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage())
+    return CustomScrollView(
+      slivers: [
+        const SliverAppBar(
+          floating: true,
+          flexibleSpace: FlexibleSpaceBar(
+            title: CustomAppBar(),
+          ),
+        ),
+        SliverList(
+            delegate: SliverChildBuilderDelegate(
+                (context, index) => Column(
+                      children: [
+                        MoviesSlideshow(movies: slideshowImages),
+                        MoviesHorizontalListView(
+                            movies: nowPlayingMovies,
+                            title: 'Now Playing',
+                            subtitle: 'Monday 20',
+                            loadNextPage: () => ref
+                                .read(nowPlayingMoviesProvider.notifier)
+                                .loadNextPage()),
+                        MoviesHorizontalListView(
+                            movies: nowPlayingMovies,
+                            title: 'Soon',
+                            subtitle: 'This month',
+                            loadNextPage: () => ref
+                                .read(nowPlayingMoviesProvider.notifier)
+                                .loadNextPage()),
+                        MoviesHorizontalListView(
+                            movies: nowPlayingMovies,
+                            title: 'Populars',
+                            subtitle: 'The best',
+                            loadNextPage: () => ref
+                                .read(nowPlayingMoviesProvider.notifier)
+                                .loadNextPage()),
+                        MoviesHorizontalListView(
+                            movies: nowPlayingMovies,
+                            title: 'Now Playing',
+                            subtitle: 'Monday 20',
+                            loadNextPage: () => ref
+                                .read(nowPlayingMoviesProvider.notifier)
+                                .loadNextPage()),
+                      ],
+                    ),
+                childCount: 1)),
       ],
     );
   }
