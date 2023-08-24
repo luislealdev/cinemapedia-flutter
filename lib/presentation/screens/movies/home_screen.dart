@@ -31,11 +31,18 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   void initState() {
     super.initState();
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final popularMovies = ref.watch(popularMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
+    final upcomingMovies = ref.watch(upcomingMoviesProvider);
+
     final slideshowImages = ref.watch(moviesSlideshowProvider);
 
     return CustomScrollView(
@@ -54,30 +61,31 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                         MoviesHorizontalListView(
                             movies: nowPlayingMovies,
                             title: 'Now Playing',
-                            subtitle: 'Monday 20',
+                            subtitle:
+                                "${DateTime.now().day} / ${DateTime.now().month}",
                             loadNextPage: () => ref
                                 .read(nowPlayingMoviesProvider.notifier)
                                 .loadNextPage()),
                         MoviesHorizontalListView(
-                            movies: nowPlayingMovies,
+                            movies: upcomingMovies,
                             title: 'Soon',
                             subtitle: 'This month',
                             loadNextPage: () => ref
-                                .read(nowPlayingMoviesProvider.notifier)
+                                .read(upcomingMoviesProvider.notifier)
                                 .loadNextPage()),
                         MoviesHorizontalListView(
-                            movies: nowPlayingMovies,
+                            movies: popularMovies,
                             title: 'Populars',
-                            subtitle: 'The best',
+                            subtitle: 'Now',
                             loadNextPage: () => ref
-                                .read(nowPlayingMoviesProvider.notifier)
+                                .read(popularMoviesProvider.notifier)
                                 .loadNextPage()),
                         MoviesHorizontalListView(
-                            movies: nowPlayingMovies,
-                            title: 'Now Playing',
-                            subtitle: 'Monday 20',
+                            movies: upcomingMovies,
+                            title: 'Top Rated',
+                            subtitle: 'All times',
                             loadNextPage: () => ref
-                                .read(nowPlayingMoviesProvider.notifier)
+                                .read(upcomingMoviesProvider.notifier)
                                 .loadNextPage()),
                       ],
                     ),
