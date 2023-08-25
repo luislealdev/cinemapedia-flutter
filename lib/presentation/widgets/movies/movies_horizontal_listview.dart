@@ -59,7 +59,8 @@ class _MoviesHorizontalListViewState extends State<MoviesHorizontalListView> {
             scrollDirection: Axis.horizontal,
             itemCount: widget.movies.length,
             itemBuilder: (context, index) {
-              return _MovieCard(movie: widget.movies[index]);
+              return FadeInRight(
+                  child: _MovieCard(movie: widget.movies[index]));
             },
           )),
         ],
